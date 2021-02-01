@@ -1,38 +1,11 @@
 import React, {useState} from 'react';
-import './Login.css';
 
-import api from '../../services/api';
-import logo from '../../assets/logo.svg';
+import './Register.css';
 
-function Login({ history }) {
+function Register() {
 
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [state, setState] = useState({});
     const [stateErrors, setStateErrors] = useState({});
-
-    function validate(){
-
-        //let [errors]
-        let nameError = "";
-        let passwordError = "";
-
-        if (!username || username === '') {
-            console.log('entrou no usuário vazio');
-            nameError = "É necessário preencher o nome do usuário.";
-        }
-
-        if (!password || password === ''){
-            console.log('entrou no password vazio');
-            passwordError = "É necessário preencher a senha do usuário.";
-        }
-
-        if (nameError || passwordError){
-            setStateErrors({nameError, passwordError});
-            return false;   
-        }
-        else
-            return true;
-    }
 
     async function handleSubmit(event) {
         
@@ -70,36 +43,16 @@ function Login({ history }) {
                 setStateErrors({responseError: 'Há um problema na conexão, verifique sua internet e tente novamente'});
             }
         }
-
-        // console.log('Data: ', data);
-
-        // if (data.error) {
-
-        //     alert('Ocorreu um erro ', data.error);
-
-        // } else 
-        // {
-        //     alert('Foi tudo ok.');
-        // }
-
-        // if (response.status == 200){
-        //     console.log("ok, passou pelo login", response.data.success);
-        //     history.push('/main');
-        // }
-        // else if (response.status == 400) {
-        //     console.log('ocorreu um erro: ', response.data.error)
-        // }
-
     }
 
     return (
-        <div className="login-container">
+        <div className="register-container">
             <div className="logo-container">
                 <img src={logo} alt="TOA Games" />
             </div>
             <form onSubmit={handleSubmit}>
                 <h2>
-                    Entre na sua conta
+                    Registre-se, é grátis
                 </h2>
                 
                 {
@@ -130,8 +83,7 @@ function Login({ history }) {
                 <button type="submit">Entrar</button>
             </form>
         </div>
-    );
+    )
 }
 
-export default Login;
-    
+export default Register;
