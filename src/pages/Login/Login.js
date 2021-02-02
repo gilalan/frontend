@@ -43,15 +43,34 @@ function Login({ history }) {
                 console.log("formulário validado");
                 console.log("Solicitar serviço...");
                 const response = await api.post('/login', {name: username, password});
+                console.log('response: ', response);
                 //const { status, data } = await _login(username, password);
                 
-                if (response.data) {
+                if (response) {
                     
-                    console.log("data: ", JSON.stringify(response.data));
+                    switch(response.status) {
+                        case 200:
+                            console.log("data: ", JSON.stringify(response.data));
+
+                        break;
+                        case 400: 
+                            console.log('Erro: ', response.data.msg);
+                            setStateErrors({responseError: `Erro: ${response.data.msg}`});
+                        break;
+                        case 401:
+                            console.log('Erro: ', response.data.msg);
+                            setStateErrors({responseError: `Não autorizado: ${response.data.msg}`});
+                        break;
+                        default:
+                            console.log('Erro: ', response.data.msg);
+                            setStateErrors({responseError: `Erro: ${response.data.msg}`});
+                        break;
+                    }                    
 
                 } else {
 
                     console.log("Response sem dados...");
+                    setStateErrors({responseError: 'Sem resposta do servidor...'});    
 
                 }
                 
@@ -68,19 +87,14 @@ function Login({ history }) {
 
                 console.log("Há um problema com a conexão entre o cliente e o servidor");
                 setStateErrors({responseError: 'Há um problema na conexão, verifique sua internet e tente novamente'});
+
+            } else {
+
+                console.log("Há um problema NÃO MAPEADO com a conexão entre o cliente e o servidor");
+                setStateErrors({responseError: 'Ocorreu um problema, tente novamente'});
+
             }
         }
-
-        // console.log('Data: ', data);
-
-        // if (data.error) {
-
-        //     alert('Ocorreu um erro ', data.error);
-
-        // } else 
-        // {
-        //     alert('Foi tudo ok.');
-        // }
 
         // if (response.status == 200){
         //     console.log("ok, passou pelo login", response.data.success);
